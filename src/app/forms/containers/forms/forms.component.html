@@ -1,0 +1,126 @@
+<div class="forms">
+  <form [formGroup]="form" class="form">
+    <div class="form-group">
+      <label>
+        <span>Name</span>
+        <input type="text" class="form-control" formControlName="name" placeholder="Name">
+      </label>
+      <ul class="alert alert-danger errors-list"
+          *ngIf="this.form.get('name').invalid && this.form.get('name').touched">
+        <li
+          *ngIf="this.form.get('name').hasError('required') && this.form.get('name').touched">
+          Field Name is Required
+        </li>
+        <li
+          *ngIf="this.form.get('name').hasError('validator') && this.form.get('name').touched">
+          {{ this.form.get('name').errors.validator }}
+        </li>
+      </ul>
+    </div>
+
+    <fieldset class="fieldset" formGroupName="address">
+      <legend>Address</legend>
+      <label>
+        <span>Country</span>
+        <input type="text" class="form-control" formControlName="country" placeholder="Country">
+      </label>
+      <label>
+        <span>City</span>
+        <input type="text" class="form-control" formControlName="city" placeholder="City">
+      </label>
+    </fieldset>
+
+    <fieldset class="fieldset fieldset-contacts" formArrayName="contacts">
+      <legend>Contacts</legend>
+      <label class="d-flex justify-content-between flex-wrap"
+             *ngFor="let contact of contacts.controls; let i = index;">
+        <select class="col-3 form-control" [formControl]="contact['controls'].type">
+          <option *ngFor="let opt of contactTypes" [value]="opt.value">
+            {{ opt.title }}
+          </option>
+        </select>
+        <input type="text" class="col-6 form-control"
+               [formControl]="contact['controls'].value">
+        <button class="col-2 btn btn-danger btn-remove" (click)="remove(i)">
+          <svg class="bi bi-x-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/>
+            <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/>
+          </svg>
+        </button>
+
+        <ul class="alert alert-danger contacts-selected"
+            *ngIf="contact.get('value').invalid && contact.get('value').touched">
+          <li *ngIf="contact.get('value').hasError('required')">Field is Required</li>
+          <li *ngIf="contact.get('value').hasError('phone')">
+            {{ contact.get('value').errors.phone }}
+          </li>
+          <li *ngIf="contact.get('value').hasError('email')">
+            Field should contain e-mail
+          </li>
+          <li *ngIf="contact.get('value').hasError('skype')">
+            {{ contact.get('value').errors.skype }}
+          </li>
+          <li>
+            {{ contact.get('value').errors | json }}
+          </li>
+        </ul>
+      </label>
+
+      <ul class="alert alert-danger"
+          *ngIf="!contacts.controls.length">
+        <li>At least one contact info should be added</li>
+      </ul>
+      <button class="btn btn-outline-primary btn-add"
+              (click)="addContact()"
+              [disabled]="contacts.length >= 3">
+        Add
+      </button>
+    </fieldset>
+
+    <fieldset class="fieldset" formGroupName="passwords">
+      <legend>Passwords</legend>
+      <div class="form-group">
+        <div class="form-group-part">
+          <label>
+            <span>Password</span>
+            <input type="text" class="form-control" formControlName="password">
+          </label>
+          <ul class="alert alert-danger"
+              *ngIf="this.form.get('passwords').get('password').invalid && this.form.get('passwords').get('password').touched">
+            <li>
+              Field Password is Required
+            </li>
+          </ul>
+        </div>
+        <div class="form-group-part">
+          <label>
+            <span>Confirm</span>
+            <input type="text" class="form-control" formControlName="confirm">
+          </label>
+          <ul class="alert alert-danger"
+              *ngIf="this.form.get('passwords').get('confirm').invalid && this.form.get('passwords').get('confirm').touched">
+            <li>
+              Field Confirm is Required
+            </li>
+          </ul>
+        </div>
+        <ul class="alert alert-danger" *ngIf="this.form.get('passwords').hasError('equal') && this.form.get('passwords').touched">
+          <li>{{ this.form.get('passwords').errors.equal }}</li>
+        </ul>
+      </div>
+    </fieldset>
+
+    <button type="submit"
+            class="btn btn-outline-success btn-submit"
+            (click)="submit()">
+      Submit
+    </button>
+  </form>
+
+<!--  <div>-->
+<!--    {{ contacts.value | json }}-->
+<!--    <br>-->
+<!--    {{ contacts.valid }}-->
+<!--  </div>-->
+</div>
