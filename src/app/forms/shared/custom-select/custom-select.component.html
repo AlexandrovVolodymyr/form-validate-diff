@@ -1,0 +1,17 @@
+<div class="btn-group btn-group-justified" [ngClass]="{'show': isOpen}">
+  <button type="button" class="btn btn-secondary">{{ placeholder }}</button>
+  <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
+          (click)="toggleOpen()">
+    <span class="sr-only">Toggle Dropdown</span>
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <button type="button"
+            class="dropdown-item"
+            *ngFor="let option of options"
+            [ngClass]="{'active': option.value === this.selectedOption.value}"
+            (click)="optionSelect(option)">
+      {{ option.title }}
+    </button>
+    <div class="dropdown-item" *ngIf="!options.length">No items for select</div>
+  </div>
+</div>

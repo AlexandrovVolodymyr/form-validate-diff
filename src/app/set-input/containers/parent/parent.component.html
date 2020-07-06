@@ -1,0 +1,6 @@
+<div class="container">
+  <app-child [value]="value"></app-child>
+  <label>
+    <input type="text" class="form-control" [(ngModel)]="value" (ngModelChange)="change($event)">
+  </label>
+</div>

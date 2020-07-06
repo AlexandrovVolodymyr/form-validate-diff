@@ -10,6 +10,7 @@ import {
 } from "@angular/forms";
 import { takeUntil } from "rxjs/operators";
 import { Subject } from "rxjs";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-forms',
@@ -22,17 +23,21 @@ export class FormsComponent implements OnInit, OnDestroy {
   contactTypes: { value: string, title: string, validators?: ValidatorFn[] }[] = [
     { value: 'Phone', title: 'Phone', validators: [Validators.required, this.phoneValidator()] },
     { value: 'E-mail', title: 'E-mail', validators: [Validators.required, Validators.email] },
-    { value: 'Skype', title: 'Skype', validators: [this.skypeLoginValidator()] }
+    { value: 'Skype', title: 'Skype', validators: [Validators.required, this.skypeLoginValidator()] }
   ];
 
-  defaultArrayGroup: FormGroup = new FormGroup({
-    type: new FormControl(this.contactTypes[0].value),
-    value: new FormControl('', )
-  })
+  optionsLang = [
+    { lang: 'ru' },
+    { lang: 'en' }
+  ];
+  currentLanguage: string = 'ru';
 
   private unsubscribe: Subject<void> = new Subject<void>();
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    public translate: TranslateService
+  ) { }
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -87,6 +92,8 @@ export class FormsComponent implements OnInit, OnDestroy {
       this.form.markAllAsTouched();
       return false;
     }
+
+    alert('submit');
   }
 
   private userNameValidator(): ValidatorFn {
@@ -147,6 +154,11 @@ export class FormsComponent implements OnInit, OnDestroy {
         contactsLength: 'At least one contact info should be added'
       };
     };
+  }
+
+  changeLanguage(language: string) {
+    this.currentLanguage = language;
+    this.translate.use(language);
   }
 
   ngOnDestroy() {

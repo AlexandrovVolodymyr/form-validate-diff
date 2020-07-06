@@ -1,0 +1,23 @@
+{
+  "HOME": {
+    "TITLE": "Hello",
+    "WELCOME": "Thanks {{name}}!"
+  },
+  "BUTTON": {
+    "LANG": {
+      "RU": "Russian",
+      "EN": "English"
+    }
+  },
+  "Name": "Name",
+  "Address": "Address",
+  "Country": "Country",
+  "City": "City",
+  "Contacts": "Contacts",
+  "Add": "Add",
+  "Passwords": "Passwords",
+  "Password": "Password",
+  "Confirm": "Confirm",
+  "Submit": "Submit",
+  "Выберите язык": "Choose language"
+}

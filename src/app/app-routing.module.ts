@@ -10,11 +10,18 @@ const routes: Routes = [
   {
     path: 'forms',
     loadChildren: () => import('./forms/forms.module').then(m => m.FormsModule)
+  },
+  {
+    path: 'setter',
+    loadChildren: () => import('./set-input/set-input.module').then(m => m.SetInputModule)
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    initialNavigation: 'enabled'
+  })],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}
